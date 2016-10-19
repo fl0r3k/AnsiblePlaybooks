@@ -1,0 +1,8 @@
+master	ansible_connection=local
+slave   ansible_connectino=ssh
+
+[ansible-master]
+master
+
+[ansible-slaves]
+slave

@@ -1,0 +1,45 @@
+---
+- hosts: all
+  user: root
+  vars:
+    # created with:
+    # python -c 'import crypt; print crypt.crypt("Password so strong", "Salt very random")'
+    crypted_password: SaXk9aKQvKF/2
+  
+  tasks:
+  - name: Installing libselinux-python for all hosts
+    yum:
+      name: libselinux-python
+      state: present
+
+  - name: Removing ansible user to recreate it later
+    user:
+      name: ansible
+      remove: yes
+      state: absent
+      force: yes
+
+  - name: Creating ansible user on all machines for managing cluster using ansible command
+    user:
+      name: ansible
+      password: "{{crypted_password}}"
+      groups: wheel
+      state: present
+      update_password: always
+      force: yes
+      createhome: yes
+
+- hosts: ansible-master
+  become: true
+  become_user: ansible
+  tasks:
+  - name: Generating id_rsa key for passwordless ssh for ansible user 
+    shell: ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
+
+- hosts: all 
+  user: root
+  tasks:
+  - name: Copying ansible ssh key to all machines for passwordless ssh
+    authorized_key:
+      user: ansible
+      key: "{{ lookup('file', '/home/ansible/.ssh/id_rsa.pub') }}"
