@@ -1,0 +1,106 @@
+---
+- hosts: all
+  user: root
+  vars:
+    yum_proxy:  
+  
+  tasks:
+#  - name: Enable cache and set proxy for yum
+#    yum_repository:
+#      keepcache: 1
+#      proxy: "{{yum_proxy}}"
+
+  - name: Installing package - libXp
+    yum:
+      name: libXp
+      state: present
+      
+  - name: Installing package - libXmu
+    yum:
+      name: libXmu
+      state: present
+      
+  - name: Installing package - glibc
+    yum:
+      name: glibc
+      state: present
+      
+  - name: Installing package - numactl 
+    yum:
+      name: numactl
+      state: present
+      
+  - name: Installing package -  motif 
+    yum:
+      name: motif
+      state: present
+      
+  - name: Installing package - libpng12 
+    yum:
+      name: libpng12
+      state: present
+      
+  - name: Installing package - xterm
+    yum:
+      name: xterm
+      state: present
+
+
+- hosts: ansible-controller
+  user: root
+  tasks:
+  - name: Installing package - python-paramiko
+    yum:
+      name: python-paramiko
+      state: present
+
+  - name: Installing package - PyYAML
+    yum:
+      name: PyYAML
+      state: present
+
+  - name: Installing package - jinja2
+    yum:
+      name: python-jinja2
+      state: present
+
+
+- hosts: all
+  user: root
+  tasks:
+  - name: Setenforce 0
+    shell: setenforce 0
+  - name: SElinux
+    shell: sudo sed -i.bak -e 's/SELINUX=enforcing/SELINUX=permissive/g' /etc/selinux/config
+#  - name: iptables stop
+#    shell: service iptables stop
+#  - name: iptables off
+#    shell: chkconfig iptables off
+#  - name: ip6tables stop
+#    shell: service ip6tables stop
+#  - name: ip6tables off
+#    shell: chkconfig ip6tables off
+#  - name: firewalld stop
+#    shell: service firewalld stop
+#  - name: firewalld off
+#    shell: chkconfig firewalld off
+  
+  - name: SSH max startups limit
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      state: present
+      regexp: "^MaxStartups 100:300:600"
+
+  - name: Maximum open files limit
+    pam_limits:
+      domain: '*'
+      limit_type: '-' 
+      limit_item: 'nofile'
+      value: '20480'
+
+  - name: Increase processes limit
+    replace:
+      dest: /etc/security/limits.d/90-nproc.conf
+      regexp: '^\*[[:space:]]*soft[[:space:]]*nproc[[:space:]]*[[:digit:]]*$'
+      replace: '*          soft    nproc     65535'
+
