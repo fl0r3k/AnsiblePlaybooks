@@ -1,0 +1,111 @@
+---
+- name: Configuring yum and installing required packages for all hosts
+  hosts: all 
+  user: root  
+  vars_files:
+    - vars.yml  
+  tasks:
+  
+  - name: Check if proxy for yum is properly set
+    lineinfile:
+      dest: /etc/yum.conf
+      state: present
+      regexp: "^proxy="
+      line: "proxy={{YUM_CONFIG.proxy_server}}"
+    when:
+      - YUM_CONFIG.setup_proxy == True
+  
+  - name: Check if keepcache yum is set
+    lineinfile:
+      dest: /etc/yum.conf
+      state: present
+      regexp: "^keepcache="
+      line: "keepcache={{YUM_CONFIG.keepcache}}"
+   
+  - name: Update all packages
+    yum:
+      pkg: "*"
+      state: present
+
+  - name: Installing SAS Viya required packages ({{SAS_VIYA_REQUIRED_PACKAGES.all_hosts}})
+    yum:
+      pkg: "{{SAS_VIYA_REQUIRED_PACKAGES.all_hosts}}"
+      state: present
+
+
+
+
+- name: Installing required packages for ansible controllers
+  hosts: ansible-controller
+  user: root
+  vars_files:
+    - vars.yml
+  tasks:
+
+  - name: Installing SAS Viya required packages ({{SAS_VIYA_REQUIRED_PACKAGES.ansible_controller}})
+    yum:
+      pkg: "{{SAS_VIYA_REQUIRED_PACKAGES.ansible_controller}}"
+      state: present
+
+
+
+
+
+- name: Disabling SElinux for all hosts
+  hosts: all
+  user: root
+  tasks:
+
+  - name: Setting SElinux to Permissive
+    shell: setenforce Permissive
+
+  - name: Set SElinux to Permisive on startup
+    lineinfile:
+      dest: /etc/selinux/config
+      regexp: "^SELINUX="
+      line: "SELINUX=permissive"
+      state: present
+
+
+
+
+#TODO iptables and firewall
+#see SAS Viya Deployment Guide
+
+
+
+- name: Configuring SSH for all hosts
+  hosts: all
+  user: root
+  tasks:
+  
+  - name: SSH max startups limit
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      regexp: "^MaxStartups"
+      line: "MaxStartups 100:300:600"
+      state: present
+
+
+
+
+
+- name: Configuring open file limit and processes limit
+  hosts: all
+  user: root
+  tasks:
+
+  - name: Open files limit
+    pam_limits:
+      domain: '*'
+      limit_type: '-' 
+      limit_item: 'nofile'
+      value: '20480'
+#thos below should check OS version
+  - name: Increase processes limit
+    lineinfile:
+      dest: /etc/security/limits.d/20-nproc.conf
+      regexp: '^\*\s+soft\s+nproc\s+'
+      line: '*          soft    nproc     65535'
+      state: present
+

@@ -1,13 +1,10 @@
-master  ansible_connection=local
-slave   ansible_connectino=ssh
-
-[sasviya-server]
-master
+sas-server      ansible_connection=local
+cas-controller  ansible_connection=ssh
+cas-worker-1    ansible_connection=ssh
 
 [ansible-controller]
-master
+sas-server
 
-[cas-controller]
-slave
-
-[cas-worker]
+[ansible-slave]
+cas-controller
+cas-worker-1

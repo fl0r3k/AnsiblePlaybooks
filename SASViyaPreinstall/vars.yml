@@ -1,0 +1,10 @@
+---
+#Configuration options for yum
+YUM_CONFIG:
+  setup_proxy: True
+  proxy_server: http://172.28.64.108:8000
+  keepcache: 1
+
+SAS_VIYA_REQUIRED_PACKAGES:
+  all_hosts: libXp,libXmu,glibc,numactl,motif,libpng12,xterm
+  ansible_controller: python-paramiko,PyYAML,python-jinja2
