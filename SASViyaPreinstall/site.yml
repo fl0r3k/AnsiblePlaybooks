@@ -83,7 +83,7 @@
     lineinfile:
       dest: /etc/ssh/sshd_config
       regexp: "^MaxStartups"
-      line: "MaxStartups 100:300:600"
+      line: "MaxStartups 100:30:600"
       state: present
 
 
