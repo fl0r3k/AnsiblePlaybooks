@@ -1,0 +1,25 @@
+---
+- name: password-less-ssh - removing user if exists
+  user:
+    name: "{{ ambari_user }}"
+    state: absent
+    remove: yes
+    force: yes
+  become: yes
+  ignore_errors: yes
+
+- name: password-less-ssh - creating user for ambari
+  user:
+    name: "{{ ambari_user }}"
+    groups: "{{ ambari_user_groups }}"
+    state: present
+    createhome: yes
+  become: yes
+
+- name: password-less-ssh - copy key to authorized_keys on all hosts
+  authorized_key:
+    user: "{{ ambari_user }}"
+    key: "{{ item }}"
+  with_file:
+    - public_keys/ambari.pub
+  become: yes

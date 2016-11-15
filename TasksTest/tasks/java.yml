@@ -1,0 +1,5 @@
+---
+- name: java - installing OpneJDK 1.8
+  yum:
+    pkg: {{ common_java_package }}
+    state: latest

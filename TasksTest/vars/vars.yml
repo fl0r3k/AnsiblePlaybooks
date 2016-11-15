@@ -1,0 +1,20 @@
+---
+#check swap size and create new if needed
+common_swap: yes
+common_swap_size: 256 
+common_swap_fstab: yes
+common_swap_path: "/swapfile"
+common_swap_remove_current: yes
+
+#checks for latest packages, installs and restarts
+common_update: yes
+common_update_reboot: yes
+
+#required packages on all hosts
+common_required_software: rpm,openssh-clients,curl,unzip,tar,wget,openssl,python2
+common_java_package: java-1.8.0-openjdk
+
+common_ulimit: 10000
+
+ambari_user: ambari
+ambari_user_groups: wheel

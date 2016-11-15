@@ -1,0 +1,44 @@
+---
+- name: Configuring all Hadoop hosts
+  hosts: tag_Hadoop_1  
+  tasks:
+  - name: Installing Hortonworks HDP 2.5 required packages
+    yum:
+      pkg: rpm,curl,unzip,tar,wget,openssl,python,java-1.8.0-openjdk-devel,ntp
+      state: present
+  - name: Removing firewalld
+    yum:
+      pkg: firewalld
+      state: absent
+  - name: Update all packages
+    yum:
+      pkg: "*"
+      state: latest
+  - name: Setting environment variable JAVA_HOME
+    lineinfile:
+      dest: /etc/profile
+      regexp: "^export JAVA_HOME="
+      line: "export JAVA_HOME=/etc/alternatives/java_sdk_openjdk"
+      state: present
+  - name: Setting umask 0022
+    lineinfile:
+      dest: /etc/profile
+      regexp: "^umask 0022$"
+      line: "umask 0022"
+      state: present
+  - name: Setting SElinux to Permissive
+    shell: setenforce Permissive
+  - name: Set SElinux to Permisive on startup
+    lineinfile:
+      dest: /etc/selinux/config
+      regexp: "^SELINUX="
+      line: "SELINUX=permissive"
+      state: present
+  - name: Setting ulimit
+    shell: "ulimit -n 10000"
+  - name: Enable ntpd on startup
+    shell: systemctl enable ntpd
+  - name: Start ntpd
+    shell: systemctl start ntpd
+
+

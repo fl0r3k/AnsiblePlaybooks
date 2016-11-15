@@ -1,0 +1,25 @@
+---
+- hosts: tag_AnsibleRole_Slave
+  become: yes
+
+  vars_files:
+    - vars/vars.yml
+
+  tasks:
+    - name: Gather facts about system
+      action: setup
+
+    - name: Configure swap
+      include: tasks/swap.yml
+    
+    - name: Updating installed packages
+      include: tasks/update.yml
+
+    - name: Installing required software
+      include: tasks/software.yml
+
+    - name: Setting ulimit
+      include: tasks/ulimit.yml
+
+    - name: Crating user for Ambari Server
+      include: tasks/user.yml
