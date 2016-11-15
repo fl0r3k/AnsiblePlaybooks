@@ -1,0 +1,14 @@
+#---
+#Configuration options for yum
+#HORTONWORKS_HDP_REQUIRED_PACKAGES:
+#  all_hosts: rpm,curl,unzip,tar,wget,openssl,python,java-1.8.0-openjdk-devel,ntp
+#  ambari_server: 
+---
+common_hostname: "ansible"
+common_hostname_domain: "domain"
+
+common_swap: yes
+common_swap_size: 8192
+common_swap_fstab: yes
+common_swap_path: "/swap"
+common_swap_remove_current: yes

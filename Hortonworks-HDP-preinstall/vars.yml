@@ -1,5 +1,0 @@
----
-#Configuration options for yum
-HORTONWORKS_HDP_REQUIRED_PACKAGES:
-  all_hosts: rpm,curl,unzip,tar,wget,openssl,python,java-1.8.0-openjdk-devel,ntp
-  ambari_server: 
