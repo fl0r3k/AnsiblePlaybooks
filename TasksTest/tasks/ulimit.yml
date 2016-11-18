@@ -1,3 +1,0 @@
----
-- name: ulimit - setting maximum number of open file descriptors
-  shell: "ulimit -n {{ common_ulimit }}"

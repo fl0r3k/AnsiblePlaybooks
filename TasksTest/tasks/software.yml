@@ -1,5 +1,0 @@
----
-- name: software - installing required software packages
-  yum:
-    pkg: "{{ common_required_software }}"
-    state: latest
