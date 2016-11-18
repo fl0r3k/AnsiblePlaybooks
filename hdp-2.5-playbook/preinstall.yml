@@ -1,12 +1,19 @@
 ---
-- name: HDP 2.5 preinstall steps
-  hosts: tag_AnsibleRole_Slave
+- name: HDP 2.5 ambari server preinstall steps
+  hosts: ambari-server
   become: yes
-
   vars_files:
     - vars.yml
-
   roles:
     - common
     - ambari-server
-    - ambari-agent
+
+- name: HDP 2.5 ambari agent preinstall steps
+  hosts: ambari-server
+  become: yes
+  vars_files:
+    - vars.yml
+  roles:
+    - common
+    - ambari-server
+  
