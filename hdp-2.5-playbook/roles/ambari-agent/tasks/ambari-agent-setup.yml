@@ -1,0 +1,27 @@
+---
+- name: Ambari Agent - install
+  become: yes
+  yum:
+    pkg: ambari-agent
+
+- name: Ambari Agent - configure user
+  become: yes
+  lineinfile:
+    dest: /etc/ambari-agent/conf/ambari-agent.ini
+    regexp: "^run_as_user="
+    line: "run_as_user={{ ambari_user }}"
+  when: ambari_agent_set_user | bool == true
+
+- name: Ambari Agent - configure server address
+  become: yes
+  lineinfile:
+    dest: /etc/ambari-agent/conf/ambari-agent.ini
+    regexp: "^hostname="
+    line: "hostname={{ ambari_agent_server_hostname }}"
+  when: ambari_agent_set_server | bool == true
+
+- name: Ambari Agent - start agents 
+  become_user: "{{ ambari_user }}"
+  shell: ambari-agent start
+  when: ambari_agent_start | bool == true
+

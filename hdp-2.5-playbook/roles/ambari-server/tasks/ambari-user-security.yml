@@ -1,0 +1,11 @@
+---
+- name: Ambari Server User - set sudo security
+  blockinfile:
+    dest: /etc/sudoers
+    marker: "# {mark} SUDO RIGHTS FOR AMBARI SERVER USER - PREINSTALL TASKS"
+    block: |
+      Defaults exempt_group = ambari
+      Defaults !env_reset,env_delete-=PATH
+      Defaults: ambari !requiretty
+      # Ambari Commands
+      {{ ambari_user }} ALL=(ALL) NOPASSWD:SETENV: /bin/mkdir, /bin/cp, /bin/chmod, /bin/rm

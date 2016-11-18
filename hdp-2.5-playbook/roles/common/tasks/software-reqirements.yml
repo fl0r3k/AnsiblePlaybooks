@@ -1,0 +1,5 @@
+---
+- name: Software Requirements - installing required software packages
+  yum:
+    pkg: "{{ software_requirements }}"
+    state: latest

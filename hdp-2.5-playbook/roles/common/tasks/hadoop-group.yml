@@ -1,0 +1,6 @@
+---
+- name: Hadoop Grop - create hadoop group
+  become: yes
+  group:
+    name: hadoop
+    state: present

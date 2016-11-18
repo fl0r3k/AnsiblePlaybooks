@@ -1,0 +1,11 @@
+---
+- name: Changing selinux mode in file
+  become: yes
+  lineinfile:
+    dest: /etc/sysconfig/selinux
+    regexp: "^SELINUX="
+    line: "SELINUX={{ selinux_mode }}"
+
+- name: Changing selinux mode now
+  become: yes
+  shell: setenforce 0

@@ -1,0 +1,9 @@
+---
+- name: Number of Open File Descriptors in file
+  become: yes
+  lineinfile:
+    dest: /etc/security/limits.conf
+    line: "^* * nofile {{ ulimit_n }}"
+
+- name: Number of Open File Descriptors now
+  shell: "ulimit -n {{ ulimit_n }}"

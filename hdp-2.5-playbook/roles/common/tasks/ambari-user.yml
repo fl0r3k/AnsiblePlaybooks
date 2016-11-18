@@ -1,0 +1,33 @@
+---
+- name: Ambari User - adding user
+  become: yes
+  user:
+    name: "{{ ambari_user }}"
+
+- name: Ambari User - setting password
+  become: yes
+  user:
+    name: "{{ ambari_user }}"
+    password: "{{ ambari_user_password }}"
+    update_password: always
+  when:
+    - ambari_user_setup_password | bool == true
+
+- name: Ambari User - add to hadoop group
+  become: yes
+  user:
+    name: "{{ ambari_user }}"
+    groups: hadoop
+  when:
+    - ambari_user_add_to_hadoop_group | bool == true
+
+- name: Ambari User - sudo configuration
+  become: yes
+  blockinfile:
+    dest: /etc/sudoers
+    marker: "# {mark} HPD PREINSTALL by Ansible"
+    block: |
+      Defaults exempt_group = ambari
+      Defaults !env_reset,env_delete-=PATH
+      Defaults: ambari !requiretty
+      ambari ALL=(ALL) NOPASSWD: ALL

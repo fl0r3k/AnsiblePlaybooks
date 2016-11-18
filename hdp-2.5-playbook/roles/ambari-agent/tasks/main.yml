@@ -1,0 +1,10 @@
+---
+- name: Ambari Agent User - set security
+  include: ambari-user-security.yml
+  when: 
+    - ambari_agent_user_set_security | bool == true
+    - ambari_user_setup | bool == true
+
+- name: Ambari Agent - setup
+  include: ambari-agent-setup.yml
+  when: ambari_agent_install | bool == true

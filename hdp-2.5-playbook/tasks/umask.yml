@@ -1,0 +1,11 @@
+---
+- name: UMASK - set umask 
+  become: yes
+  shell: "umask {{ umask_value }}"
+
+- name: UMASK - set umask for all users
+  become: yes
+  lineinfile:
+    dest: /etc/profile
+    regexp: "^umask "
+    line: "umask {{ umask_value }}"

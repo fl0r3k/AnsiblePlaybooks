@@ -1,0 +1,11 @@
+---
+- name: HOSTNAME - 
+  become: yes
+  yum:
+    pkg: ntp
+
+- name: NTP - enable on boot
+  service:
+    name: ntpd
+    state: started
+    enabled: yes

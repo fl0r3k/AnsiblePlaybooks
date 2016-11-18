@@ -1,0 +1,7 @@
+---
+- name: Ambari Repository - adding
+  become: yes
+  get_url:
+    url: "{{ ambari_repo_url }}"
+    dest: /etc/yum.repos.d/ambari.repo
+

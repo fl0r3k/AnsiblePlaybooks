@@ -1,0 +1,57 @@
+---
+
+# HADOOP GROUP
+hadoop_group_setup: true
+
+# AMBARI USER
+## setup password with command:
+## python -c "from passlib.hash import sha512_crypt; import getpass; print sha512_crypt.encrypt(getpass.getpass())"
+ambari_user_setup: true 
+ambari_user: ambari
+ambari_user_setup_password: true
+ambari_user_password: $6$rounds=100000$UaJ15wt.IyFZdV04$AfUSqQm6aNGw9qYAzfeRwnVuXkBqRAlomMBLqc0RHiJSxQKokG1OXf5y8MXtcdVuqTuCQFfzbIcYm2I5aaJg1.
+ambari_user_add_to_hadoop_group: true
+
+ambari_server_user_set_security: true
+ambari_agent_user_set_security: true
+
+# AMBARI
+ambari_add_repo: true
+ambari_repo_url: http://public-repo-1.hortonworks.com/ambari/centos7/2.x/updates/2.4.1.0/ambari.repo
+
+## AMBARI SERVER
+ambari_server_install: true
+
+## AMBARI AGENT
+ambari_agent_install: true
+ambari_agent_set_user: true
+ambari_agent_set_server: true
+ambari_agent_server_hostname: abc.hadoop.com 
+ambari_agent_start: true
+
+#required packages
+software_requirements_setup: false
+software_requirements: rpm, openssh-clients, curl, unzip, tar, wget, openssl, python2
+
+#java
+java_setup: false
+java_version: java-1.8.0-openjdk
+
+
+#open file descriptors
+ulimit_setup: true
+ulimit_n: 10000
+
+#setting selinux
+selinux_setup: true
+selinux_mode: permissive
+
+#NTP setup
+ntp_setup: true
+
+#IPTABLES stop
+iptables_disable: true
+
+#UMASK set
+umask_set: true
+umask_value: "0022"

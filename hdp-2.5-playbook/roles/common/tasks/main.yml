@@ -1,0 +1,41 @@
+---
+- name: Software Requirements
+  include: software-reqirements.yml
+  when: software_requirements_setup | bool ==  true
+
+- name: Java
+  include: java.yml
+  when: java_setup | bool == true
+
+- name: Setting maximum number of open files
+  include: ulimits.yml
+  when: ulimit_setup | bool == true
+
+- name: SELINUX
+  include: selinux.yml
+  when: selinux_setup | bool == true
+
+- name: UMASK
+  include: umask.yml
+  when: umask_set | bool == true
+
+- name: NTP
+  include: ntp.yml
+  when: ntp_setup | bool == true
+
+- name: IPTABLES
+  include: iptables.yml
+  when: iptables_disable | bool == true
+
+- name: Hadoop Group Setup
+  include: hadoop-group.yml
+  when: hadoop_group_setup | bool == true
+    
+- name: Ambari User Setup
+  include: ambari-user.yml
+  when: ambari_user_setup | bool == true
+
+- name: Ambari Repository Add
+  include: ambari-add-repo.yml
+  when: ambari_add_repo | bool == true
+

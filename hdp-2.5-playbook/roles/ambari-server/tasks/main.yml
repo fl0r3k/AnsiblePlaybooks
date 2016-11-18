@@ -1,0 +1,10 @@
+---
+- name: Ambari Server User - set security
+  include: ambari-user-security.yml
+  when:
+    - ambari_server_user_set_security | bool == true
+    - ambari_user_setup | bool == true
+
+- name: Ambari Server  - install
+  include: ambari-server-install.yml
+  when: ambari_server_install | bool == true

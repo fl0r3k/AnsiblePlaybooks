@@ -1,0 +1,5 @@
+---
+- name: Java - installing java
+  yum:
+    pkg: "{{ java_version }}"
+    state: latest

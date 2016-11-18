@@ -1,0 +1,5 @@
+---
+- name: Ambari Server - installation
+  become: yes
+  yum:
+    pkg: ambari-server
