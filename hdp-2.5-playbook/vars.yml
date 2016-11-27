@@ -9,7 +9,7 @@ hadoop_group_setup: true
 ambari_user_setup: true 
 ambari_user: ambari
 ambari_user_setup_password: true
-ambari_user_password: $6$rounds=100000$UaJ15wt.IyFZdV04$AfUSqQm6aNGw9qYAzfeRwnVuXkBqRAlomMBLqc0RHiJSxQKokG1OXf5y8MXtcdVuqTuCQFfzbIcYm2I5aaJg1.
+ambari_user_password: 
 ambari_user_add_to_hadoop_group: true
 
 ambari_server_user_set_security: true
@@ -26,11 +26,11 @@ ambari_server_install: true
 ambari_agent_install: true
 ambari_agent_set_user: true
 ambari_agent_set_server: true
-ambari_agent_server_hostname: abc.hadoop.com 
+ambari_agent_server_hostname: hc1.local.openstack.sas.com
 ambari_agent_start: true
 
 #required packages
-software_requirements_setup: false
+software_requirements_setup: true 
 software_requirements: rpm, openssh-clients, curl, unzip, tar, wget, openssl, python2
 
 #java

@@ -1,12 +1,9 @@
-main		ansible_host=169.254.123.213	ansible_connection=local
-worker-1	ansible_host=169.254.123.123	ansible_connection=ssh
-worker-2	ansible_host=169.254.123.123	ansible_connection=ssh
+hc1 ansible_connection=local
+hc[2:6] ansible_connection=ssh
 
 [ambari-server]
-main
+hc1
 
-[ambari-agents]
-main
-worker-[1:2]
-
+[ambari-agent]
+hc[1:6]
 
