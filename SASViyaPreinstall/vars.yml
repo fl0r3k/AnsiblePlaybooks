@@ -2,7 +2,7 @@
 #Configuration options for yum
 YUM_CONFIG:
   setup_proxy: True
-  proxy_server: http://172.28.64.108:8000
+  proxy_server: 
   keepcache: 1
 
 SAS_VIYA_REQUIRED_PACKAGES:
